@@ -46,7 +46,7 @@ This project is licensed under the MIT License.
 
 Special thanks to the Flask and MySQL communities for their excellent documentation and support.
 
-###Login and Registration Page
+### Login and Registration Page
 ![Login and Registration Page](assets/login&registration.png)
 
 ### Data in MySQL Table
