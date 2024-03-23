@@ -45,3 +45,13 @@ This project is licensed under the MIT License.
 ## Acknowledgements
 
 Special thanks to the Flask and MySQL communities for their excellent documentation and support.
+
+###Login and Registration Page
+![Login and Registration Page](assets/login&registration.png)
+
+### Data in MySQL Table
+![Data in MySQL Table](assets/data_in_mysql.png)
+
+### Successful Login - Pizza House Homepage
+![Successful Login - Pizza House Homepage](assets/pizza_home_page.png)
+
