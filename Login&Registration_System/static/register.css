@@ -1,0 +1,47 @@
+/* Apply styles from the provided CSS */
+
+header {
+    text-align: center;
+    margin-top: 50px; /* Adjust as needed */
+  }
+  
+  .register-form {
+    text-align: center;
+    margin-top: 50px; /* Adjust as needed */
+  }
+  
+  .register-form form {
+    margin-top: 20px; /* Adjust as needed */
+  }
+  
+  .register-form input[type="text"],
+  .register-form input[type="password"],
+  .register-form input[type="submit"] {
+    margin-bottom: 10px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s;
+  }
+  
+  .register-form input[type="text"],
+  .register-form input[type="password"],
+  .register-form input[type="email"] {
+    width: 300px; /* Adjust as needed */
+  }
+  
+  .register-form input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .register-form input[type="submit"]:hover {
+    background-color: #45a049;
+  }
+  
+  .register-form p {
+    margin-top: 20px; /* Adjust as needed */
+  }
+  

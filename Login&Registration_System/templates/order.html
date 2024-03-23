@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Food</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='order.css') }}">
+
+</head>
+<body>
+    <header>
+        <h1>Order Food</h1>
+    </header>
+    <section class="menu" id="menu">
+        
+    </section>
+    <section class="order-summary">
+        <h2>Order Summary</h2>
+        <ul id="order-list">
+            
+        </ul>
+        <div id="total-cost">Total Cost: ₹0.00</div>
+        <button id="checkout-btn">Proceed to Payment</button>
+    </section>
+
+    <script src="order.js"></script>
+</body>
+</html>

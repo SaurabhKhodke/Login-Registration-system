@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Pizza Landing Page</title>
+    <!-- Box Icons -->
+    <link rel="stylesheet"
+  href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+  <!-- Link To CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+  
+
+</head>
+<body>
+    <!-- Navbar -->
+    <header>
+        <a href="#" class="logo">Pizza Pie</a>
+        <div class="bx bx-menu" id="menu-icon"></div>
+
+        <ul class="navbar">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#menu">Menu</a></li>
+            <li><a href="#services">Service</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <!-- Dark Mode -->
+            <div class="bx bx-moon" id="darkmode"></div>
+        </ul>
+    </header>
+    <!-- Home  Section-->
+    <section class="home" id="home">
+        <div class="home-text">
+            <h1>Pizza Taste</h1>
+            <h2>The tasty pizza of <br> your choice</h2>
+            <a href="#menu" class="btn">View Menu</a>
+        </div>
+        <div class="home-img">
+            <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8Mnx8fGVufDB8fHx8&w=1000&q=80.png" alt="">
+        </div>
+    </section>
+
+    <!-- About -->
+    <section class="about" id="about">
+        <div class="about-img">
+            <img src="https://cdn.pixabay.com/photo/2017/12/09/08/18/pizza-3007395__480.jpg" alt="">
+        </div>
+        <div class="about-text">
+            <span>About Us</span>
+            <h2>We make good and <br> tasty pizzas</h2>
+            <p>It is very important for the customer to pay attention to the adipiscing process. So that by what right do we lead the matter, is it bound to abandon the comfort of suffering, to some or to flight?</p>
+            <a href="#" class="btn">Learn More</a>
+        </div>
+    </section>
+
+ <!-- Menu -->
+ <section class="menu" id="menu">
+    <div class="heading">
+        <span>Menu</span>
+        <h2>Tasty menu of the week</h2>
+    </div>
+    <div class="menu-container">
+        <!-- Sample menu items -->
+        <div class="box">
+            <div class="box-img">
+                <img src="https://images.pexels.com/photos/803290/pexels-photo-803290.jpeg?cs=srgb&dl=pexels-beqa-tefnadze-803290.jpg&fm=jpg" alt="">
+            </div>
+            <h2>Cheese Pizza</h2>
+            <h3>Tasty Food</h3>
+            <span>$30.05</span>
+            <button class="order-btn">Order</button>
+        </div>
+        <!-- Add more menu items here... -->
+    </div>
+</section>
+<section class="order-summary-container" id="order-summary-container" style="display: none;">
+    <section class="order-summary">
+        <h2>Order Summary</h2>
+        <ul id="order-list"></ul>
+        <div id="total-cost">Total Cost: ₹0.00</div>
+        <button id="checkout-btn">Proceed to Payment</button>
+    </section>
+</section>
+
+
+<script>
+    // Sample data for food items (you can replace it with your actual data)
+const foodItems = [
+{ name: "Cheese Pizza", price: 849.00, imgSrc: "https://media.istockphoto.com/id/1280329631/photo/italian-pizza-margherita-with-tomatoes-and-mozzarella-cheese-on-wooden-cutting-board-close-up.jpg?s=612x612&w=0&k=20&c=CFDDjavIC5l8Zska16UZRZDXDwd47fwmRsUNzY0Ym6o=" },
+    { name: "Pepperoni Pizza", price: 949.00, imgSrc: "https://media.istockphoto.com/id/521403691/photo/hot-homemade-pepperoni-pizza.jpg?s=612x612&w=0&k=20&c=PaISuuHcJWTEVoDKNnxaHy7L2BTUkyYZ06hYgzXmTbo=" },
+    { name: "Vegetarian Pizza", price: 899.00, imgSrc: "https://media.istockphoto.com/id/181175167/photo/pizza.jpg?s=612x612&w=0&k=20&c=OyXOr0gffQOpa-Dn94I_DOsOcEVWTmbl9kR_M25o1v4=" },
+    { name: "Margherita Pizza", price: 769.00, imgSrc: "https://media.istockphoto.com/id/1393150881/photo/italian-pizza-margherita-with-cheese-and-tomato-sauce-on-the-board-on-grey-table-macro-close.jpg?s=612x612&w=0&k=20&c=kL0Vhg2XKBjEl__iG8sFv31WTiahdpLc3rTDtNZuD2g=" },
+    { name: "Hawaiian Pizza", price: 1029.00, imgSrc: "https://media.istockphoto.com/id/185009286/photo/hawaiian-pizza.jpg?s=612x612&w=0&k=20&c=2tU2JUXr3UCGnuRNKhZGGOwbb6AOC2eckp_TLUf-pdw=" },
+    { name: "BBQ Chicken Pizza", price: 1089.00, imgSrc: "https://media.istockphoto.com/id/489593343/photo/bbq-chicken-pizza.jpg?s=612x612&w=0&k=20&c=Lx264tmxrp3wpcwLdRdJyIvi3Yxm56jj2TW5WeoU8FI=" },
+    { name: "Meat Lovers Pizza", price: 1149.00, imgSrc: "https://media.istockphoto.com/id/1248287329/photo/savory-homemade-meat-lovers-pizza.jpg?s=612x612&w=0&k=20&c=ozXnuE1wYhYHJ75jwR9dLIodSbM2CFupeA9sxhAqtjY=" },
+    { name: "Supreme Pizza", price: 1219.00, imgSrc: "https://media.istockphoto.com/id/153784617/photo/supreme-pizza-slice-lift.jpg?s=612x612&w=0&k=20&c=Et5uDUJYv3sqDitb1jnUbnGrxhn015foBX_BS-1NFxs=" },
+    { name: "Buffalo Chicken Pizza", price: 1089.00, imgSrc: "https://media.istockphoto.com/id/1215800380/photo/homemade-buffalo-chicken-pizza.jpg?s=612x612&w=0&k=20&c=ZXVcxuryo7YZRX5qX4npwYFD08OVh3iu5b1A8dFEMxc=" },
+    { name: "Mushroom Pizza", price: 899.00, imgSrc: "https://media.istockphoto.com/id/531064304/photo/white-pizza.jpg?s=612x612&w=0&k=20&c=8aiwmytrwerN94nb1Ja_sXcTZB3xFV6z3RTVtOv2RGQ=" }
+];
+
+
+// Function to display food items in the menu section
+function displayMenu() {
+    const menuSection = document.getElementById("menu");
+    menuSection.innerHTML = "";
+
+    foodItems.forEach(item => {
+        const box = document.createElement("div");
+        box.classList.add("box");
+        box.innerHTML = `
+            <div class="box-img">
+                <img src="${item.imgSrc}" alt="${item.name}">
+            </div>
+            <h2>${item.name}</h2>
+            <h3>Tasty Food</h3>
+            <span>$${item.price.toFixed(2)}</span>
+            <button class="order-btn">Order</button>
+        `;
+        menuSection.appendChild(box);
+    });
+}
+
+
+// Function to handle order button click
+function handleOrderButtonClick(event) {
+    const button = event.target;
+    const box = button.closest(".box");
+    const itemName = box.querySelector("h2").innerText;
+    const itemPrice = parseFloat(box.querySelector("span").innerText.substring(1));
+    addToOrder(itemName, itemPrice);
+    // Show the order summary container
+    document.getElementById("order-summary-container").style.display = "block";
+}
+
+// Event listener for order buttons
+document.addEventListener("click", function(event) {
+    if (event.target.classList.contains("order-btn")) {
+        handleOrderButtonClick(event);
+    }
+});
+
+// Event listener for the "Proceed to Payment" button
+document.getElementById("checkout-btn").addEventListener("click", function() {
+    // Perform the task after the specific operation is performed by the user
+    console.log("Proceeding to payment...");
+    // You can add additional functionality here, such as redirecting to a payment page
+});
+
+// Function to add food items to the order
+function addToOrder(itemName, itemPrice) {
+    const orderList = document.getElementById("order-list");
+    const listItem = document.createElement("li");
+    listItem.innerHTML = `${itemName}: $${itemPrice.toFixed(2)}`;
+    orderList.appendChild(listItem);
+
+    // Update total cost
+    updateTotalCost(itemPrice);
+}
+
+// Function to update the total cost
+function updateTotalCost(itemPrice) {
+    const totalCostElement = document.getElementById("total-cost");
+    const currentTotalCost = parseFloat(totalCostElement.innerText.split(":")[1].trim().substring(1));
+    const newTotalCost = currentTotalCost + itemPrice;
+    totalCostElement.innerText = `Total Cost: $${newTotalCost.toFixed(2)}`;
+}
+
+// Display initial menu
+displayMenu();
+
+</script>
+
+
+
+
+    <!-- Service -->
+    <section class="services" id="services">
+        <div class="heading">
+            <span>Services</span>
+            <h2>We provide best food services</h2>
+        </div>
+
+        <div class="servives-container">
+            <!-- Box 1 -->
+            <div class="s-box">
+                <img src="https://images.pexels.com/photos/280453/pexels-photo-280453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500.png" alt="">
+                <h3>You Order</h3>
+                <p>Thank you very much. Let her escape from being at the very times.</p>
+            </div>
+            <!-- Box 2 -->
+            <div class="s-box">
+                <img src="https://images.pexels.com/photos/4391470/pexels-photo-4391470.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500.png" alt="">
+                <h3>Shipping</h3>
+                <p>Thank you very much. Let her escape from being at the very times.</p>
+            </div>
+            <!-- Box 3 -->
+            <div class="s-box">
+                <img src="https://images.pexels.com/photos/4393426/pexels-photo-4393426.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500.png" alt="">
+                <h3>Delivered</h3>
+                <p>Thank you very much. Let her escape from being at the very times.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Connect -->
+    <section class="connect">
+        <div class="connect-text">
+            <span>Let's Talk</span>
+            <h2>Connect now</h2>
+        </div>
+        <a href="#home" class="btn">Home</a>
+    </section>
+
+    <!-- Contact -->
+<section class="contact" id="contact">
+    <div class="contact-box">
+        <h3>Pizza Pie</h3>
+        <span>Connect With Us</span>
+        <div class="social">
+            <a href="#"><i class='bx bxl-facebook'></i></a>
+            <a href="#"><i class='bx bxl-twitter'></i></a>
+            <a href="#"><i class='bx bxl-instagram'></i></a>
+        </div>
+    </div>
+    <div class="contact-box">
+        <h3>Menu Links</h3>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#menu">Menu</a></li>
+            <li><a href="#services">Service</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </div>
+    <div class="contact-box">
+        <h3>Quick Links</h3>
+        <ul>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="#privacy-policy">Privacy Policy</a></li>
+            <li><a href="#disclaimer">Disclaimer</a></li>
+            <li><a href="#terms-of-use">Terms Of Use</a></li>
+        </ul>
+    </div>
+    <div class="contact-box address">
+        <h3>Contact</h3>
+        <ul>
+            <li><i class='bx bxs-map'></i><span>Pune, India</span></li>
+            <li><i class='bx bxs-phone'></i><span>+91 000 999 5555</span></li>
+            <li><i class='bx bxs-envelope'></i><span>example@email.com</span></li>
+        </ul>
+    </div>
+</section>
+
+
+    
+    <div class="copyright">
+        <p>© Asslone4 All Right Reserved.</p>
+    </div>
+
+
+  
+    <script src="welcome.js"></script>
+</body>
+</html>
